@@ -19,53 +19,53 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 	protected float maxPower;
 	
 	float power;
-//	Direction direction;
-//	ZeroPowerBehavior zeroPowerMode;
+	Direction direction;
+	ZeroPowerBehavior zeroPowerMode;
 	
 	//extra power that can be used to add drag on a motor to simulate uneven power
 	float extraPower;
 	
 	public WebotsDcMotorImpl(String name) {
 //		this.motor=motor;
-//		this.name=name;
-//
-//		direction=Direction.FORWARD;
-//		zeroPowerMode=ZeroPowerBehavior.BRAKE;
-//		maxPower=10;
+		this.name=name;
+		
+		direction=Direction.FORWARD;
+		zeroPowerMode=ZeroPowerBehavior.BRAKE;
+		maxPower=10;
 	}
 
 
-//	@Override
-//	public void setDirection(Direction direction) {
-//		this.direction=direction;
-//	}
+	@Override
+	public void setDirection(Direction direction) {
+		this.direction=direction;
+	}
 
-//	@Override
-//	public Direction getDirection() {
-//		return direction;
-//	}
+	@Override
+	public Direction getDirection() {
+		return direction;
+	}
 
 	@Override
 	public void setPower(double inputPower) {
-//		if (direction==Direction.REVERSE) {
-//			inputPower=-inputPower;
-//		}
-//		internalSetPower(inputPower);
+		if (direction==Direction.REVERSE) {
+			inputPower=-inputPower;
+		}
+		internalSetPower(inputPower);
 	}
 	
 	private void internalSetPower(double inputPower) {
-//		if (inputPower==0) {
-//			power=0;
+		if (inputPower==0) {
+			power=0;
 //			motor.setPosition(Double.POSITIVE_INFINITY);
 //			motor.setVelocity(0);
-//		}
-//		else {
-//			//need to scale from -1 to 1 to actual values
-//			power=limitPower(inputPower);
-//
+		}
+		else {
+			//need to scale from -1 to 1 to actual values
+			power=limitPower(inputPower);
+			
 //			motor.setPosition(Double.POSITIVE_INFINITY);
 //			motor.setVelocity(extraPower+scalePower(power));
-//		}
+		}
 	}
 
 	public final double scalePower(double power) {
@@ -83,11 +83,11 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 		return power;
 	}
 
-//	@Override
-//	public Manufacturer getManufacturer() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public Manufacturer getManufacturer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public String getDeviceName() {
@@ -142,17 +142,17 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 		return 0;
 	}
 
-//	@Override
-//	public void setZeroPowerBehavior(ZeroPowerBehavior zeroPowerBehavior) {
-//		// TODO Auto-generated method stub
-//
-//	}
+	@Override
+	public void setZeroPowerBehavior(ZeroPowerBehavior zeroPowerBehavior) {
+		// TODO Auto-generated method stub
+		
+	}
 
-//	@Override
-//	public ZeroPowerBehavior getZeroPowerBehavior() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public ZeroPowerBehavior getZeroPowerBehavior() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void setPowerFloat() {
@@ -186,17 +186,18 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 
 	@Override
 	public int getCurrentPosition() {
-//		PositionSensor sensor=motor.getPositionSensor();
-//		if (sensor==null) {
-//			System.out.println("No PositionSensor defined in joint for motor "+name);
-//			return 0;
-//		}
-//		//need a mapping probably
-//		return (int)sensor.getValue();
+//		PositionSensor sensor=moor.getPositionSensor();
+////		if (sensor==null) {
+////			System.out.println("No PositionSensor defined in joint for motor "+name);
+////			return 0;
+////		}
+////		//need a mapping probably
+////		return (int)sensor.getValue();t
+		return 1;
 	}
 
 	@Override
-	public void setMode() {
+	public void setMode(RunMode mode) {
 		// TODO Auto-generated method stub
 		
 	}

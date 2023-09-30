@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/SampleAndroidStudioProject/FtcRobotController/src">
+      <sourceFolder url="file://$MODULE_DIR$/SampleAndroidStudioProject/FtcRobotController/src/main/java" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/SampleAndroidStudioProject/TeamCode/src">
+      <sourceFolder url="file://$MODULE_DIR$/SampleAndroidStudioProject/TeamCode/src/main/java" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/SimulatorSupport/src">
+      <sourceFolder url="file://$MODULE_DIR$/SimulatorSupport/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/WebotsFTCController/src">
+      <sourceFolder url="file://$MODULE_DIR$/WebotsFTCController/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="FTCController" level="project" />
+  </component>
+</module>

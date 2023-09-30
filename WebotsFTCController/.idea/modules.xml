@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FTCSimulator-main.iml" filepath="$PROJECT_DIR$/.idea/FTCSimulator-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebotsFTCController.iml" filepath="$PROJECT_DIR$/WebotsFTCController.iml" />
     </modules>
   </component>
 </project>

@@ -14,9 +14,10 @@ import org.ftc6448.simulator.PlatformSupport;
 //import com.cyberbotics.webots.controller.Supervisor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-//import com.studiohartman.jamepad.ControllerManager;
+import com.studiohartman.jamepad.ControllerManager;
 
 public class OpModeController implements Controller {
 
@@ -26,19 +27,20 @@ public class OpModeController implements Controller {
 	
 	public final int timeStep;
 //	protected Keyboard keyboard;
-//	protected GamepadSupport gamepadSupport;
-//	protected ControllerManager controllerManager;
+	protected GamepadSupport gamepadSupport;
+	protected ControllerManager controllerManager;
 	
-	public OpModeController(OpMode opMode, Properties properties) {
+	public OpModeController(OpMode opMode,Properties properties) {
 		this.opMode = opMode;
 //		this.supervisor=supervisor;
 		this.properties=properties;
 		// get the time step of the current world.
-		timeStep = (int) Math.round(16);
+//		timeStep = (int) Math.round(supervisor.getBasicTimeStep());
+		timeStep = 0;
 		System.out.println("timeStep " + timeStep);
 	
-//		opMode.gamepad1=new Gamepad();
-//		opMode.gamepad2=new Gamepad();
+		opMode.gamepad1=new Gamepad();
+		opMode.gamepad2=new Gamepad();
 		
 	}
 	
@@ -47,11 +49,11 @@ public class OpModeController implements Controller {
 //		keyboard = new Keyboard();
 //		keyboard.enable(timeStep);
 		
-//		controllerManager = new ControllerManager();
-//		controllerManager.initSDLGamepad();
+		controllerManager = new ControllerManager();
+		controllerManager.initSDLGamepad();
 		
-//		gamepadSupport=new GamepadSupport(properties, controllerManager);
-		
+		gamepadSupport = new GamepadSupport(properties, controllerManager);
+
 		initializeDevices();
 		opMode.internalPreInit();
 		System.out.println("Calling OpMode init");
@@ -66,8 +68,8 @@ public class OpModeController implements Controller {
 		
 		
 		//load all motors into the hardware motor map
-//		for (int i=0;i<supervisor.getNumberOfDevices();i++) {
-////			Device device=supervisor.getDeviceByIndex(i);
+//		for (int i = 0; i < supervisor.getNumberOfDevices(); i++) {
+//			Device device=supervisor.getDeviceByIndex(i);
 //
 //			System.out.println(device+" "+i);
 //
@@ -76,7 +78,7 @@ public class OpModeController implements Controller {
 //				System.out.println(device+" is IMU");
 //				InertialUnit imu=(InertialUnit)device;
 //				imu.enable(timeStep);
-//				hardwareMap.put("imu", (HardwareDevice) new WebotsBNO055IMU());
+//				hardwareMap.put("imu", new WebotsBNO055IMU(imu));
 //			}
 //			else if (device instanceof Motor) {
 //				Motor motor=(Motor)device;
@@ -129,39 +131,39 @@ public class OpModeController implements Controller {
 //
 //
 //		}
-		
-		//add any missing motors
-	    for (Object key:properties.keySet()) {
-	    	String property=(String)key;
-	    	HardwareDevice webotsDevice=null;
-	    	if (property.endsWith(".type")) {
-	    		String device=property.substring(0,property.length()-5);
-	    		String type=properties.getProperty(property);
-	    		if ("servo".equalsIgnoreCase(type)) {
-	    			webotsDevice = new WebotsServo();
-	    		}
-	    		else if ("continuousServo".equalsIgnoreCase(type)) {
-	    			webotsDevice = new WebotsContinuousServo();
-	    		}
-	    		else if ("motor".equalsIgnoreCase(type)) {
-	    			webotsDevice = new WebotsDcMotor(device);
-	    		}
-	    		else if ("distance".equalsIgnoreCase(type)) {
-	    			webotsDevice = new WebotsDistanceSensor(device);
-	    		}
-	    		else if ("digitalChannel".equalsIgnoreCase(type)) {
-					//TODO: should this do something
-					WebotsDigitalChannel channel=new WebotsDigitalChannel(device);
-
-					System.out.println("Device "+device+" is a digital channel");
-	    			hardwareMap.put(device, channel);
-	    		}
-	    		if (webotsDevice!=null &&  !hardwareMap.hasDevice(device)) {
-	    			System.out.println("Adding empty "+type+" implementation for "+device);
-	    			hardwareMap.put(device, webotsDevice);
-	    		}
-	    	}
-	    }
+//
+//		//add any missing motors
+//	    for (Object key:properties.keySet()) {
+//	    	String property=(String)key;
+//	    	HardwareDevice webotsDevice=null;
+//	    	if (property.endsWith(".type")) {
+//	    		String device=property.substring(0,property.length()-5);
+//	    		String type=properties.getProperty(property);
+//	    		if ("servo".equalsIgnoreCase(type)) {
+//	    			webotsDevice=new WebotsServo();
+//	    		}
+//	    		else if ("continuousServo".equalsIgnoreCase(type)) {
+//	    			webotsDevice=new WebotsContinuousServo();
+//	    		}
+//	    		else if ("motor".equalsIgnoreCase(type)) {
+//	    			webotsDevice=new WebotsDcMotor(device);
+//	    		}
+//	    		else if ("distance".equalsIgnoreCase(type)) {
+//	    			webotsDevice=new WebotsDistanceSensor(device);
+//	    		}
+//	    		else if ("digitalChannel".equalsIgnoreCase(type)) {
+//					//TODO: should this do something
+//					WebotsDigitalChannel channel=new WebotsDigitalChannel(device);
+//
+//					System.out.println("Device "+device+" is a digital channel");
+//	    			hardwareMap.put(device, channel);
+//	    		}
+//	    		if (webotsDevice!=null &&  !hardwareMap.hasDevice(device)) {
+//	    			System.out.println("Adding empty "+type+" implementation for "+device);
+//	    			hardwareMap.put(device, webotsDevice);
+//	    		}
+//	    	}
+//	    }
 		
 	}
 
@@ -171,7 +173,7 @@ public class OpModeController implements Controller {
 		opMode.start();
 				
 		if (opMode instanceof LinearOpMode) {
-			LinearOpMode linearOpMode = (LinearOpMode)opMode;
+			LinearOpMode linearOpMode=(LinearOpMode)opMode;
 			
 			//Autonomous opmodes need special coordination between the OpMode loop and the simulator loop
 			System.out.println("Running LinearOpMode");
@@ -181,13 +183,13 @@ public class OpModeController implements Controller {
 			//this effectively locks the OpMode frequency to the simulator
 			//if sleep time is not 0, then the simulator lock is signaled and then the simulator will wait the associated time
 			
-			long sleepTime = 0;
+			long sleepTime=0;
 			String simSleepTimeStr=properties.getProperty("simulatorLoopSleepTime");
 			if (simSleepTimeStr!=null&&simSleepTimeStr.trim().length()>0) {
-				sleepTime = Long.parseLong(simSleepTimeStr);
+				sleepTime=Long.parseLong(simSleepTimeStr);
 			}
 			
-			while (true) {
+			while (1 != -1) {
 				linearOpMode.loop();
 				linearOpMode.internalPostLoop();
 				
@@ -207,23 +209,23 @@ public class OpModeController implements Controller {
 				}
 			}
 		}
-//		else {
-//			//TeleOp opmodes just loop and call the OpMode loop method along with the simulator step
-//			System.out.println("Running OpMode");
-//			boolean useKeyboard="true".equalsIgnoreCase(properties.getProperty("emulateGamepadsWithKeyboard"));
-//			while (true) {
-////				handleGamepads(useKeyboard);
-//				opMode.loop();
-//				opMode.internalPostLoop();
-//
-//				//signal any threads that are waiting for a simulator tick (TeleOp opmodes should not, but do it just in case)
-//				PlatformSupport.signalSimulatorLock(false);
-//			}
-//		}
+		else {
+			//TeleOp opmodes just loop and call the OpMode loop method along with the simulator step
+			System.out.println("Running OpMode");
+			boolean useKeyboard="true".equalsIgnoreCase(properties.getProperty("emulateGamepadsWithKeyboard"));
+			while (0 != -1) {
+				handleGamepads(useKeyboard);
+				opMode.loop();
+				opMode.internalPostLoop();
+
+				//signal any threads that are waiting for a simulator tick (TeleOp opmodes should not, but do it just in case)
+				PlatformSupport.signalSimulatorLock(false);				
+			}
+		}
 	}
 
-//	private void handleGamepads(boolean useKeyboard) {
-//
+	private void handleGamepads(boolean useKeyboard) {
+		
 //		if (!useKeyboard) {
 //			gamepadSupport.processJoystick(opMode.gamepad1, opMode.gamepad2);
 //		}
@@ -249,13 +251,13 @@ public class OpModeController implements Controller {
 //				key=keyboard.getKey();
 //			}
 //		}
-//
-//	}
+		
+	}
 
 	@Override
 	public void cleanup() {
 		opMode.stop();
-//		controllerManager.quitSDLGamepad();
+		controllerManager.quitSDLGamepad();
 	}
 
 }

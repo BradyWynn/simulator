@@ -84,7 +84,7 @@ public class ElapsedTime {
   //------------------------------------------------------------------------------------------------
 
   /**
-   * Creates a timer with resolution {@link ElapsedTime.Resolution#SECONDS Resolution.Seconds}
+   * Creates a timer with resolution {@link com.qualcomm.robotcore.util.ElapsedTime.Resolution#SECONDS Resolution.Seconds}
    * that is initialized with the now-current time.
    * @see #ElapsedTime(long)
    * @see #ElapsedTime(Resolution)
@@ -95,7 +95,7 @@ public class ElapsedTime {
   }
 
   /**
-   * Creates a timer with resolution {@link ElapsedTime.Resolution#SECONDS Resolution.Seconds}.
+   * Creates a timer with resolution {@link com.qualcomm.robotcore.util.ElapsedTime.Resolution#SECONDS Resolution.Seconds}.
    * The timer is initialized with the provided start time. Zero is often a useful value to provide
    * here: in common usage such timers will often be processed by application logic virtually immediately.
    *

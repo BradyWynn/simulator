@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FTCController">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../SampleWebotsProject/controllers/FTCController/FTCController.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

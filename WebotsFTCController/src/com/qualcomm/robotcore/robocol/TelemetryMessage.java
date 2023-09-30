@@ -216,7 +216,7 @@ public class TelemetryMessage extends RobocolParsableBase {
     }
 
     int payloadSize = countMessageBytes();
-    int totalSize   = HEADER_LENGTH + payloadSize;
+    int totalSize   = RobocolParsable.HEADER_LENGTH + payloadSize;
 
     ByteBuffer buffer = getWriteBuffer(payloadSize);
 

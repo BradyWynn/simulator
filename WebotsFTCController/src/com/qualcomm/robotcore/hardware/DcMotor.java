@@ -210,7 +210,7 @@ public interface DcMotor extends DcMotorSimple
         RUN_TO_POSITION,
 
         /** The motor is to set the current encoder position to zero. In contrast to
-         * {@link DcMotor.RunMode#RUN_TO_POSITION RUN_TO_POSITION},
+         * {@link com.qualcomm.robotcore.hardware.DcMotor.RunMode#RUN_TO_POSITION RUN_TO_POSITION},
          * the motor is not rotated in order to achieve this; rather, the current rotational
          * position of the motor is simply reinterpreted as the new zero value. However, as
          * a side effect of placing a motor in this mode, power is removed from the motor, causing

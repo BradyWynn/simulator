@@ -36,13 +36,12 @@ Modified by FTC Team Beta 8397 for use in the Virtual Robot simulator.
  */
 package org.firstinspires.ftc.robotcore.external.matrices;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.NonConst;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.*;
-
 
 /**
  * An {@link OpenGLMatrix} is a 4x4 matrix commonly used as a transformation matrix for 3D

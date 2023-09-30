@@ -1,9 +1,10 @@
 package org.ftc6448.simulator.webots;
 
+import org.ftc6448.utils.NumberUtils;
+
 //import com.cyberbotics.webots.controller.Motor;
 //import com.cyberbotics.webots.controller.PositionSensor;
-//import com.github.javaparser.Position;
-
+import com.github.javaparser.Position;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class WebotsServoImpl implements Servo {
@@ -17,30 +18,36 @@ public class WebotsServoImpl implements Servo {
 		this.name=name;
 	}
 	
+	@Override
 	public Manufacturer getManufacturer() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getDeviceName() {
 		return name;
 	}
 
+	@Override
 	public String getConnectionInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public void resetDeviceConfigurationForOpMode() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void close() {
 		// TODO Auto-generated method stub
 		
@@ -72,8 +79,9 @@ public class WebotsServoImpl implements Servo {
 	public double getPosition() {
 		//Qualcomm does this, so do the same
 //		return motor.getTargetPosition();
-		return 0.0;
+		return 1;
 	}
+
 
 	@Override
 	public void scaleRange(double min, double max) {

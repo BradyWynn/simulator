@@ -32,8 +32,9 @@ package com.qualcomm.robotcore.util;
 
 import java.util.Calendar;
 
-import com.qualcomm.robotcore.exception.RobotCoreException;
 import org.firstinspires.ftc.robotcore.internal.files.LogOutputStream;
+
+import com.qualcomm.robotcore.exception.RobotCoreException;
 
 /**
  * Allows consistent logging across all RobotCore packages

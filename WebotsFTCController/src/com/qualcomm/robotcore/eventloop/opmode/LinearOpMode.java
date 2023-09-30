@@ -18,41 +18,39 @@ import com.qualcomm.robotcore.util.ThreadPool;
 @SuppressWarnings("unused")
 public abstract class LinearOpMode extends OpMode {
 
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
   // State
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
 
-  private LinearOpModeHelper helper = null;
-  private ExecutorService executorService = null;
-  private volatile boolean isStarted = false;
-  private volatile boolean stopRequested = false;
-  private boolean userMonitoredForStart = false;
-  private final Object runningNotifier = new Object();
+  private LinearOpModeHelper helper          = null;
+  private ExecutorService    executorService = null;
+  private volatile boolean   isStarted       = false;
+  private volatile boolean   stopRequested   = false;
+  private boolean            userMonitoredForStart = false;
+  private final Object       runningNotifier = new Object();
 
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
   // Construction
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
 
   public LinearOpMode() {
   }
 
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
   // Operations
-  // ------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
 
   /**
    * Override this method and place your code here.
    * <p>
    * Please do not swallow the InterruptedException, as it is used in cases
    * where the op mode needs to be terminated early.
-   * 
    * @throws InterruptedException
    */
   abstract public void runOpMode() throws InterruptedException;
 
   /**
-   * Pauses the Linear Op Mode until start has been pressed or until the current
-   * thread
+   * Pauses the Linear Op Mode until start has been pressed or until the current thread
    * is interrupted.
    */
   public void waitForStart() {
@@ -69,17 +67,12 @@ public abstract class LinearOpMode extends OpMode {
   }
 
   /**
-   * Puts the current thread to sleep for a bit as it has nothing better to do.
-   * This allows other
+   * Puts the current thread to sleep for a bit as it has nothing better to do. This allows other
    * threads in the system to run.
    *
-   * <p>
-   * One can use this method when you have nothing better to do in your code as
-   * you await state
-   * managed by other threads to change. Calling idle() is entirely optional: it
-   * just helps make
-   * the system a little more responsive and a little more efficient.
-   * </p>
+   * <p>One can use this method when you have nothing better to do in your code as you await state
+   * managed by other threads to change. Calling idle() is entirely optional: it just helps make
+   * the system a little more responsive and a little more efficient.</p>
    *
    * @see #opModeIsActive()
    */
@@ -87,13 +80,11 @@ public abstract class LinearOpMode extends OpMode {
     // Otherwise, yield back our thread scheduling quantum and give other threads at
     // our priority level a chance to run
     Thread.yield();
-  }
+    }
 
   /**
-   * Sleeps for the given amount of milliseconds, or until the thread is
-   * interrupted. This is
-   * simple shorthand for the operating-system-provided {@link Thread#sleep(long)
-   * sleep()} method.
+   * Sleeps for the given amount of milliseconds, or until the thread is interrupted. This is
+   * simple shorthand for the operating-system-provided {@link Thread#sleep(long) sleep()} method.
    *
    * @param milliseconds amount of time to sleep, in milliseconds
    * @see Thread#sleep(long)
@@ -107,24 +98,18 @@ public abstract class LinearOpMode extends OpMode {
   }
 
   /**
-   * Answer as to whether this opMode is active and the robot should continue
-   * onwards. If the
-   * opMode is not active, the OpMode should terminate at its earliest
-   * convenience.
+   * Answer as to whether this opMode is active and the robot should continue onwards. If the
+   * opMode is not active, the OpMode should terminate at its earliest convenience.
    *
-   * <p>
-   * Note that internally this method calls {@link #idle()}
-   * </p>
+   * <p>Note that internally this method calls {@link #idle()}</p>
    *
-   * @return whether the OpMode is currently active. If this returns false, you
-   *         should
-   *         break out of the loop in your {@link #runOpMode()} method and return
-   *         to its caller.
+   * @return whether the OpMode is currently active. If this returns false, you should
+   *         break out of the loop in your {@link #runOpMode()} method and return to its caller.
    * @see #runOpMode()
    * @see #isStarted()
    * @see #isStopRequested()
    */
-  public final boolean opModeIsActive() {
+  public final boolean opModeIsActive() {  
     boolean isActive = !this.isStopRequested() && this.isStarted();
     if (isActive) {
       idle();
@@ -145,11 +130,10 @@ public abstract class LinearOpMode extends OpMode {
      * What we're looking for here is that the user polled until the
      * the start condition was occurred.
      */
-    if (isStarted)
-      userMonitoredForStart = true;
+    if(isStarted) userMonitoredForStart = true;
 
     return this.isStarted || Thread.currentThread().isInterrupted();
-  }
+    }
 
   /**
    * Has the the stopping of the opMode been requested?
@@ -160,7 +144,7 @@ public abstract class LinearOpMode extends OpMode {
    */
   public final boolean isStopRequested() {
     return this.stopRequested || Thread.currentThread().isInterrupted();
-  }
+    }
 
   /**
    * From the non-linear OpMode; do not override
@@ -168,9 +152,9 @@ public abstract class LinearOpMode extends OpMode {
   @Override
   final public void init() {
     this.executorService = ThreadPool.newSingleThreadExecutor("LinearOpMode");
-    this.helper = new LinearOpModeHelper();
-    this.isStarted = false;
-    this.stopRequested = false;
+    this.helper          = new LinearOpModeHelper();
+    this.isStarted       = false;
+    this.stopRequested   = false;
 
     this.executorService.execute(helper);
   }
@@ -212,16 +196,14 @@ public abstract class LinearOpMode extends OpMode {
     /*
      * Get out of dodge. Been here, done this.
      * (If a linear opmode returns of its own accord, this is
-     * invoked twice).
+     *  invoked twice).
      */
-    if (stopRequested)
-      return;
+    if(stopRequested) return;
 
     /*
      * Handle edge case of stop() before init()
      */
-    if (helper == null)
-      return;
+    if(helper == null) return;
 
     /*
      * Is it ending because it simply... ended (e.g. end of auto), or
@@ -231,38 +213,35 @@ public abstract class LinearOpMode extends OpMode {
      * but also !userMonitoredForStart, that means the opmode was aborted
      * during init. We don't want to show a warning in that case.
      */
-    if (!userMonitoredForStart && helper.userMethodReturned) {
-      RobotLog.addGlobalWarningMessage(
-          "The OpMode which was just initialized ended prematurely as a result of not monitoring for the start condition. Did you forget to call waitForStart()?");
+    if(!userMonitoredForStart && helper.userMethodReturned) {
+      RobotLog.addGlobalWarningMessage("The OpMode which was just initialized ended prematurely as a result of not monitoring for the start condition. Did you forget to call waitForStart()?");
     }
 
     // make isStopRequested() return true (and opModeIsActive() return false)
     stopRequested = true;
 
-    if (executorService != null) { // paranoia
+    if (executorService != null) {  // paranoia
 
       // interrupt the linear opMode and shutdown it's service thread
       executorService.shutdownNow();
 
-      /**
-       * Wait, forever, for the OpMode to stop. If this takes too long, then
-       * {@link OpModeManagerImpl#callActiveOpModeStop()} will catch that and take
-       * action
-       */
+      
+      /** Wait, forever, for the OpMode to stop. If this takes too long, then
+       * {@link OpModeManagerImpl#callActiveOpModeStop()} will catch that and take action */
       try {
         String serviceName = "user linear op mode";
         ThreadPool.awaitTermination(executorService, 100, TimeUnit.DAYS, serviceName);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       }
-      executorShutdown = true;
+      executorShutdown=true;
     }
   }
-
-  volatile boolean executorShutdown = false;
-
+  
+  volatile boolean executorShutdown=false;
+  
   public boolean isStopped() {
-    return executorShutdown;
+	  return executorShutdown;
   }
 
   protected void handleLoop() {
@@ -271,8 +250,7 @@ public abstract class LinearOpMode extends OpMode {
     if (helper.hasRuntimeException()) {
       throw helper.getRuntimeException();
     }
-    // if there is a NoClassDefFoundError; throw it so the normal error reporting
-    // process can
+    // if there is a NoClassDefFoundError; throw it so the normal error reporting process can
     // handle it. It could be due to an external library that is missing.
     if (helper.hasNoClassDefFoundError()) {
       throw helper.getNoClassDefFoundError();
@@ -286,69 +264,59 @@ public abstract class LinearOpMode extends OpMode {
   protected class LinearOpModeHelper implements Runnable {
     private static final String TAG = "LinearOpModeHelper";
 
-    protected RuntimeException exception = null;
+    protected RuntimeException     exception  = null;
     protected NoClassDefFoundError noClassDefFoundError = null;
-    protected boolean isShutdown = false;
-    protected volatile boolean userMethodReturned = false;
+    protected boolean              isShutdown = false;
+    protected volatile boolean     userMethodReturned = false;
 
     public LinearOpModeHelper() {
     }
 
     @Override
     public void run() {
-      ThreadPool.logThreadLifeCycle("LinearOpMode main", new Runnable() {
-        @Override
-        public void run() {
-          exception = null;
-          noClassDefFoundError = null;
-          isShutdown = false;
+      ThreadPool.logThreadLifeCycle("LinearOpMode main", new Runnable() { @Override public void run() {
+        exception = null;
+        noClassDefFoundError = null;
+        isShutdown = false;
 
-          try {
-            LinearOpMode.this.runOpMode();
-            userMethodReturned = true;
-            RobotLog.dd(TAG, "User runOpModeMethod exited");
-            requestOpModeStop();
-          } catch (InterruptedException ie) {
-            // InterruptedException, shutting down the op mode
-            RobotLog.d("LinearOpMode received an InterruptedException; shutting down this linear op mode");
-            requestOpModeStop();
-          } catch (CancellationException ie) {
-            // In our system, CancellationExceptions are thrown when data was trying to be
-            // acquired, but
-            // an interrupt occurred, and you're in the unfortunate situation that the data
-            // acquisition API
-            // involved doesn't allow InterruptedExceptions to be thrown. You can't return
-            // (what data would
-            // you return?), and so you have to throw a RuntimeException.
-            // CancellationException seems the
-            // best choice.
-            RobotLog.d("LinearOpMode received a CancellationException; shutting down this linear op mode");
-            requestOpModeStop();
-          } catch (RuntimeException e) {
-            System.out.println("Exception in op mode " + e);
-            e.printStackTrace();
-
-            exception = e;
-            // We do NOT call requestOpModeStop() in this case, because we want to make sure
-            // the
-            // exception gets a chance to be thrown on the event loop thread.
-          } catch (NoClassDefFoundError e) {
-            noClassDefFoundError = e;
-          } finally {
-            // If the user has given us a telemetry.update() that hasn't get gone out, then
-            // push it out now. However, any NEW device health warning should be suppressed
-            // while
-            // doing so, since required state might have been cleaned up by now and thus
-            // generate errors.
-            if (telemetry instanceof TelemetryInternal) {
-              telemetry.setMsTransmissionInterval(0); // will be reset the next time the opmode runs
-              ((TelemetryInternal) telemetry).tryUpdateIfDirty();
-            }
-            // Do the necessary bookkeeping
-            isShutdown = true;
+        try {
+          LinearOpMode.this.runOpMode();
+          userMethodReturned = true;
+          RobotLog.dd(TAG, "User runOpModeMethod exited");
+          requestOpModeStop();
+        } catch (InterruptedException ie) {
+          // InterruptedException, shutting down the op mode
+          RobotLog.d("LinearOpMode received an InterruptedException; shutting down this linear op mode");
+          requestOpModeStop();
+        } catch (CancellationException ie) {
+          // In our system, CancellationExceptions are thrown when data was trying to be acquired, but
+          // an interrupt occurred, and you're in the unfortunate situation that the data acquisition API
+          // involved doesn't allow InterruptedExceptions to be thrown. You can't return (what data would
+          // you return?), and so you have to throw a RuntimeException. CancellationException seems the
+          // best choice.
+          RobotLog.d("LinearOpMode received a CancellationException; shutting down this linear op mode");
+          requestOpModeStop();
+        } catch (RuntimeException e) {
+        	System.out.println("Exception in op mode "+e);
+        	e.printStackTrace();
+        	
+          exception = e;
+          // We do NOT call requestOpModeStop() in this case, because we want to make sure the
+          // exception gets a chance to be thrown on the event loop thread.
+        } catch (NoClassDefFoundError e) {
+          noClassDefFoundError = e;
+        } finally {
+          // If the user has given us a telemetry.update() that hasn't get gone out, then
+          // push it out now. However, any NEW device health warning should be suppressed while
+          // doing so, since required state might have been cleaned up by now and thus generate errors.
+          if (telemetry instanceof TelemetryInternal) {
+            telemetry.setMsTransmissionInterval(0); // will be reset the next time the opmode runs
+            ((TelemetryInternal) telemetry).tryUpdateIfDirty();
           }
+          // Do the necessary bookkeeping
+          isShutdown = true;
         }
-      });
+      }});
     }
 
     public boolean hasRuntimeException() {
@@ -372,23 +340,20 @@ public abstract class LinearOpMode extends OpMode {
     }
   }
 
-  // ----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
   // Telemetry management
-  // ----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
 
-  @Override
-  public void internalPostInitLoop() {
+  @Override public void internalPostInitLoop() {
     // Do NOT call super, as that updates telemetry unilaterally
     if (telemetry instanceof TelemetryInternal) {
-      ((TelemetryInternal) telemetry).tryUpdateIfDirty();
+      ((TelemetryInternal)telemetry).tryUpdateIfDirty();
     }
   }
 
-  @Override
-  public void internalPostLoop() {
+  @Override public void internalPostLoop() {
     // Do NOT call super, as that updates telemetry unilaterally
     if (telemetry instanceof TelemetryInternal) {
-      ((TelemetryInternal) telemetry).tryUpdateIfDirty();
+      ((TelemetryInternal)telemetry).tryUpdateIfDirty();
     }
-  }
-}
+  }}

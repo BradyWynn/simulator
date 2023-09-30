@@ -17,10 +17,12 @@ public class PlatformSupport {
 	
 	public static volatile int timeStepResult;
 	
+//	public static long getCurrentTimeMillis() {
+//		return baseTime+((long)(1000*supervisor.getTime()));
+//	}
 	public static long getCurrentTimeMillis() {
-		return baseTime+((long)(1000*10));
-	}
-
+	return baseTime;
+}
 	public static boolean isSimulator() {
 		return true;
 	}

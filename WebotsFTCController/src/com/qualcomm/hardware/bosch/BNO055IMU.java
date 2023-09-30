@@ -108,7 +108,7 @@ public interface BNO055IMU
     class Parameters implements Cloneable
         {
         /** the address at which the sensor resides on the I2C bus.  */
-        public I2cAddr i2cAddr             = I2CADDR_DEFAULT;
+        public I2cAddr          i2cAddr             = I2CADDR_DEFAULT;
 
         /** the mode we wish to use the sensor in */
         public SensorMode       mode                = SensorMode.IMU;

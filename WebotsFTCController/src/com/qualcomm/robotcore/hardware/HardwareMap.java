@@ -41,16 +41,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.RobotLog;
-
 
 /**
  * HardwareMap provides a means of retrieving runtime HardwareDevice instances according to the
  * names with which the corresponding physical devices were associated during robot configuration.
  *
  * <p>A HardwareMap also contains an associated application context in which it was instantiated.
- * Through their {@link OpMode#hardwareMap hardwareMap}, this
+ * Through their {@link com.qualcomm.robotcore.eventloop.opmode.OpMode#hardwareMap hardwareMap}, this
  * provides access to a {@link Context} for OpModes, as such an appropriate instance is needed
  * by various system APIs.</p>
  */
@@ -161,7 +159,7 @@ public class HardwareMap implements Iterable<HardwareDevice> {
    * @return a device with the indicated name which is an instance of the indicated class or interface
    * @see #get(String)
    * @see #getAll(Class)
-   * @see HardwareMap.DeviceMapping#get(String)
+   * @see com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping#get(String)
    * @see #tryGet(Class, String)
    */
   public <T> T get(Class<? extends T> classOrInterface, String deviceName) {
@@ -211,7 +209,7 @@ public class HardwareMap implements Iterable<HardwareDevice> {
    * @param deviceName  the name of the device object to be retrieved
    * @return a device with the indicated name.
    * @see #get(Class, String)
-   * @see HardwareMap.DeviceMapping#get(String)
+   * @see com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping#get(String)
    */
   public HardwareDevice get(String deviceName) {
     synchronized (lock) {
@@ -395,7 +393,7 @@ public class HardwareMap implements Iterable<HardwareDevice> {
    * comprised of all the devices of a particular device type
    *
    * @param <DEVICE_TYPE>
-   * @see HardwareMap.DeviceMapping#get(String)
+   * @see com.qualcomm.robotcore.hardware.HardwareMap.DeviceMapping#get(String)
    * @see #get(String)
    */
   public class DeviceMapping<DEVICE_TYPE extends HardwareDevice> implements Iterable<DEVICE_TYPE> {

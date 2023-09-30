@@ -5,7 +5,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 
-public class WebotsDistanceSensor implements HardwareDevice, DistanceSensor {
+public class WebotsDistanceSensor implements HardwareDevice,DistanceSensor {
 
 	String name;
 	

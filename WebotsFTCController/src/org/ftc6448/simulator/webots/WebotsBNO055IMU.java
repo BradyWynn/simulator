@@ -87,7 +87,7 @@ public class WebotsBNO055IMU implements HardwareDevice,BNO055IMU {
 	public Quaternion getQuaternionOrientation() {
 //		double []values=imu.getQuaternion();
 //		Quaternion q= new Quaternion((float)values[3], (float)values[0],(float)values[1], (float)values[2], 0);
-		return new Quaternion(1.0f, 1.0f, 1.0f, 1.0f, 0);
+		return new Quaternion();
 	}
 
 	@Override

@@ -8,14 +8,13 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-// import org.ftc6448.simulator.PlatformSupport;
+
+import org.ftc6448.simulator.PlatformSupport;
 import org.ftc6448.simulator.webots.OpModeController;
 
-//import com.cyberbotics.webots.controller.Supervisor;
-// import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.ftc6448.simulator.PlatformSupport;
+// import com.cyberbotics.webots.controller.Supervisor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.ftc6448.simulator.Controller;
+// java -classpath "C:/Program Files/Webots/lib/controller/java/Controller.jar;C:/PROGRA~3/FTCSIM~1/SAMPLE~2/CONTRO~1//FTCCON~1/FTCCON~1.JAR;C:/ProgramData/FTCSimulator/SampleAndroidStudioProject/TeamCode/build/intermediates/javac/debug/classes" "-Djava.library.path=C:/Program Files/Webots/lib/controller/java" FTCController
 
 /**
  * This controller is a bootstrap to load properties and required JAR files and
@@ -26,6 +25,7 @@ import org.ftc6448.simulator.Controller;
  */
 public class FTCController {
 	public static void main(String[] args) {
+		System.out.println("Working!");
 		FTCController controller = new FTCController();
 		try {
 			controller.launch();
@@ -41,11 +41,13 @@ public class FTCController {
 	}
 
 	public void launch() throws Exception {
-		// Supervisor supervisor = new Supervisor();
+		System.out.println("working!");
+//		Supervisor supervisor = new Supervisor();
 		
-		// PlatformSupport.supervisor = supervisor;
+//		PlatformSupport.supervisor = supervisor;
 		
 		Properties properties = loadProperties();
+		System.out.println(properties);
 
 		//create a classloader to load all classpath entries specified in the properties file
 		URLClassLoader classLoader = createClassLoader(properties);
@@ -81,7 +83,7 @@ public class FTCController {
 	private OpMode createOpMode(Properties properties, URLClassLoader classLoader) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Class<?> opModeClass = classLoader.loadClass(properties.getProperty("opMode"));
-		System.out.println("Starting controller for OpMode "+opModeClass);
+		System.out.println("Starting controller for OpMode "+ opModeClass);
 
 		Object newInstance = opModeClass.getConstructor().newInstance();
 		if (!(newInstance instanceof OpMode)) {
