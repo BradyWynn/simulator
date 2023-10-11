@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -12,8 +13,13 @@ import java.util.Properties;
 import org.ftc6448.simulator.PlatformSupport;
 import org.ftc6448.simulator.webots.OpModeController;
 
+import org.mujoco.MuJoCoLib;
+import org.mujoco.MuJoCoLib.*;
+
 // import com.cyberbotics.webots.controller.Supervisor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import static org.mujoco.MuJoCoLib.*;
 // java -classpath "C:/Program Files/Webots/lib/controller/java/Controller.jar;C:/PROGRA~3/FTCSIM~1/SAMPLE~2/CONTRO~1//FTCCON~1/FTCCON~1.JAR;C:/ProgramData/FTCSimulator/SampleAndroidStudioProject/TeamCode/build/intermediates/javac/debug/classes" "-Djava.library.path=C:/Program Files/Webots/lib/controller/java" FTCController
 
 /**
@@ -25,6 +31,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  */
 public class FTCController {
 	public static void main(String[] args) {
+		ByteBuffer errstr = null;
+		mjModel m = mj_loadXML("C:/ProgramData/FTCSimulator/WebotsFTCController/src/example.xml", null, errstr, 1000);
+		mjData d = mj_makeData(m);
+		for(int i = 0; i < 10; i++){
+			mj_step(m, d);
+		}
 		System.out.println("Working!");
 		FTCController controller = new FTCController();
 		try {

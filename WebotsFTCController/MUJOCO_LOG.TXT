@@ -1,0 +1,39 @@
+Mon Oct  9 15:56:57 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:00:41 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:01:04 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:01:52 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:02:28 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:06:22 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:06:56 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:07:37 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:07:48 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:08:01 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:08:24 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:08:37 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
+Mon Oct  9 16:08:58 2023
+WARNING: mju_openResource: unknown file 'example.xml'
+
