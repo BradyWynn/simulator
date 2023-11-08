@@ -1,0 +1,138 @@
+<mujoco model="model">
+	<compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+	<default>
+		<material specular="0.5" shininess="0.25"/>
+		<default class="visual">
+			<geom type="mesh" contype="0" conaffinity="0" group="2"/>
+		</default>
+		<default class="collision">
+			<geom type="mesh" group="3"/>
+		</default>
+	</default>
+
+	<visual>
+    	<headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    	<rgba haze="0.15 0.25 0.35 1"/>
+    	<global azimuth="120" elevation="-20"/>
+  	</visual>
+
+	<asset>
+		<texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    	<texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    	<material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+
+		<mesh file="frame.stl"/>
+		<mesh file="R_center.stl"/>
+		<mesh file="R_roller.stl"/>
+		<mesh file="L_center.stl"/>
+		<mesh file="L_roller.stl"/>
+  	</asset>
+
+	<worldbody>
+		<body pos="0 0 1.5">
+			<!-- <joint name="balljoint" damping="1" type="ball" /> -->
+			<!-- <geom mesh="body" class="visual"/> -->
+			<joint name="frontRight1" type="free"/>
+			<geom type="mesh" mesh="frame" />
+			<body pos="1.66873 1.95439 -0.064975">
+				<geom type="mesh" mesh="center"/>
+				<joint axis="1 0 0" />
+				<body name="wheel_0" pos="-0.008211 0.39068 0.127639" quat="0.153467 -0.9112 -0.056523 0.378111">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_1" pos="-0.007831 0.241171 0.332155" quat="0.424546 -0.820443 -0.173335 0.341451">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_2" pos="-0.007491 0.000121 0.410582" quat="0.666174 -0.640611 -0.265375 0.274603">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_3" pos="-0.007081 -0.240969 0.332519" quat="0.819485 -0.425988 -0.34348 0.170294">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_4" pos="-0.007561 -0.390639 0.127188" quat="0.913273 -0.139281 -0.377833 0.061445">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_5" pos="-0.007871 -0.390529 -0.127783" quat="0.910107 0.156268 -0.379852 -0.054746">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_6" pos="-0.007221 -0.241349 -0.332436" quat="0.819633 0.426621 -0.342458 -0.170056">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_7" pos="-0.007791 0.000601 -0.410804" quat="0.639798 0.666492 -0.275416 -0.265694">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_8" pos="-0.007621 0.241561 -0.332079" quat="0.410771 0.827819 -0.175412 -0.339431">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+				<body name="wheel_9" pos="-0.007681 0.390641 -0.126541" quat="0.13337 0.914051 -0.064549 -0.377567">
+					<geom type="mesh" mesh="roller"/>
+					<joint axis="1 0 0" />
+				</body>
+			</body>
+
+
+			<!-- <body pos="4.53296 4.30425 1.07828" quat="0.602298 -0.367885 -0.689395 -0.163194">
+				<joint name="frontRight1" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="4.52682 4.87125 0.666809" quat="0.459672 -0.53009 -0.710505 0.05374">
+				<joint name="frontRight2" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="4.52682 5.08811 0.000651" quat="0.270598 -0.653281 -0.653282 0.270598">
+				<joint name="frontRight3" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="4.52682 4.87199 -0.665747" quat="0.051088 -0.711155 -0.527455 0.461995">
+				<joint name="frontRight4" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="4.53296 4.30545 -1.07784" quat="0.165289 0.688096 -0.366083 0.604308">
+				<joint name="frontRight5" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="4.53296 3.60488 -1.07823" quat="0.36901 0.601827 -0.163122 0.689222">
+				<joint name="frontRight6" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="-2.2 2 0">
+				<joint name="frontLeft" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="2.2 -2 0">
+				<joint name="backRight" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body>
+			<body pos="-2.2 -2 0">
+				<joint name="backLeft" axis="1 0 0" />
+				<geom type="mesh" mesh="roller"/>
+			</body> -->
+		</body>
+		<light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+		<geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+	</worldbody>
+
+	<actuator>
+		<general name="actuator1" joint="frontRight" ctrlrange="-500 5000" forcerange="-1000 1000"/>
+	</actuator>
+	<actuator>
+		<general name="actuator2" joint="frontLeft" ctrlrange="-500 50" forcerange="-1000 1000"/>
+	</actuator>
+	<actuator>
+		<general name="actuator3" joint="backRight" ctrlrange="-500 500" forcerange="-1000 1000"/>
+	</actuator>
+	<actuator>
+		<general name="actuator4" joint="backLeft" ctrlrange="-500 500" forcerange="-1000 1000"/>
+	</actuator>
+
+</mujoco>

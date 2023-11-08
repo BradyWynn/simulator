@@ -2,6 +2,8 @@ SampleWebotsProject/controllers/FTCController/simulation.properties
 
 # Compiled class file
 *.class
+*.blend
+*.blend1
 
 #Eclipse bin folder
 bin/

@@ -19,7 +19,10 @@ import org.mujoco.MuJoCoLib.*;
 // import com.cyberbotics.webots.controller.Supervisor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import static org.mujoco.MuJoCoLib.*;
+import static org.mujoco.MuJoCoLib.mj_loadXML;
+import static org.mujoco.MuJoCoLib.mj_makeData;
+
+//import static org.mujoco.MuJoCoLib.*;
 // java -classpath "C:/Program Files/Webots/lib/controller/java/Controller.jar;C:/PROGRA~3/FTCSIM~1/SAMPLE~2/CONTRO~1//FTCCON~1/FTCCON~1.JAR;C:/ProgramData/FTCSimulator/SampleAndroidStudioProject/TeamCode/build/intermediates/javac/debug/classes" "-Djava.library.path=C:/Program Files/Webots/lib/controller/java" FTCController
 
 /**
@@ -32,10 +35,14 @@ import static org.mujoco.MuJoCoLib.*;
 public class FTCController {
 	public static void main(String[] args) {
 		ByteBuffer errstr = null;
+		mjData_ d_ = new mjData_();
+//		mjData d = new mjData(d_);
 		mjModel m = mj_loadXML("C:/ProgramData/FTCSimulator/WebotsFTCController/src/example.xml", null, errstr, 1000);
 		mjData d = mj_makeData(m);
-		for(int i = 0; i < 10; i++){
-			mj_step(m, d);
+		System.out.println(d_.address());
+		System.out.println(d.address());
+		for(int i = 0; d_.time() < 10; i++){
+			MuJoCoLib.mj_step(m, d);
 		}
 		System.out.println("Working!");
 		FTCController controller = new FTCController();
