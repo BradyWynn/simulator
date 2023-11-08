@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.ftc6448.simulator.PlatformSupport;
+//import org.ftc6448.simulator.PlatformSupport;
 
 @Autonomous(name = "Test")
 @Disabled
@@ -25,7 +25,7 @@ public class TestAutonomous extends LinearOpMode {
         //use PlatformSupport method from SimulatorSupport.jar to get the time
         //on robot, this maps to System.currentTimeMillis()
         //in simulator, it maps to elapsed simulator time
-        long startTime=PlatformSupport.getCurrentTimeMillis();
+//        long startTime=PlatformSupport.getCurrentTimeMillis();
 
         DcMotor motor1 = hardwareMap.get(DcMotor.class, "frontRight");
         DcMotor motor2 = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -52,12 +52,12 @@ public class TestAutonomous extends LinearOpMode {
             cycleCount++;
             frameCount++;
 
-            long curTime=PlatformSupport.getCurrentTimeMillis();
-            if (frameCount >=10) {
-                fps=(frameCount/((curTime-startTime)/1000.0));
-                startTime=curTime;
-                frameCount=0;
-            }
+//            long curTime=PlatformSupport.getCurrentTimeMillis();
+//            if (frameCount >=10) {
+//                fps=(frameCount/((curTime-startTime)/1000.0));
+//                startTime=curTime;
+//                frameCount=0;
+//            }
 
             //add telemetry.  to see telemetry in Webots, right click on your robot and select "Show Robot Window"
             telemetry.addData("FPS", "Loop speed - "+fps+" at elapsed time "+runtime.milliseconds());
@@ -66,7 +66,7 @@ public class TestAutonomous extends LinearOpMode {
             //on the real robot, this method call does nothing
             //on the simulator, it forces the opmode to sync its loop
             //to Webots simulator time steps
-            PlatformSupport.waitForSimulatorTimeStep();
+//            PlatformSupport.waitForSimulatorTimeStep();
         }
     }
 
