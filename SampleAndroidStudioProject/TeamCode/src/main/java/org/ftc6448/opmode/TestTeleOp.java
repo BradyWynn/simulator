@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.ftc6448.simulator.PlatformSupport;
+//import org.ftc6448.simulator.PlatformSupport;
 
 @TeleOp(name = "TestTeleop")
 @Disabled
@@ -62,10 +62,10 @@ public class TestTeleOp extends OpMode {
         double turn  = gamepad1.right_stick_x;
 
         //use PlatformSupport method to see if you are running on the simulator
-        if (PlatformSupport.isSimulator()) {
+//        if (PlatformSupport.isSimulator()) {
             //if your motors on the real robot were different than the simulator, this could reverse the direction
-            drive=-drive;
-        }
+//            drive=-drive;
+//        }
 
         motor1.setPower(drive);
         motor2.setPower(drive);

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="neuronrobotics.mujoco.java" type="repository">
+    <properties maven-id="com.neuronrobotics:mujoco-java:2.2.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/neuronrobotics/mujoco-java/2.2.2/mujoco-java-2.2.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/bytedeco/javacpp/1.5.7/javacpp-1.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

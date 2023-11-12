@@ -62,12 +62,8 @@ public class FTCController {
 			mju_scl(d_.ctrl(), d_.qvel(), -0.1, m_.nv());
 	}
 
-	private FTCController() {
-
-	}
-
 	public void launch() throws Exception {
-		System.out.println("working!");
+		System.out.println("1!");
 //		Supervisor supervisor = new Supervisor();
 		
 //		PlatformSupport.supervisor = supervisor;
@@ -77,9 +73,11 @@ public class FTCController {
 
 		//create a classloader to load all classpath entries specified in the properties file
 		URLClassLoader classLoader = createClassLoader(properties);
+		System.out.println("2!");
 
 		//load the specified OpMode
 		OpMode opMode = createOpMode(properties, classLoader);
+		System.out.println("3!");
 		
 		OpModeController controller = new OpModeController(opMode, properties);
 		PlatformSupport.timeStep=controller.timeStep;
@@ -108,6 +106,7 @@ public class FTCController {
 
 	private OpMode createOpMode(Properties properties, URLClassLoader classLoader) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		System.out.println("4!");
 		Class<?> opModeClass = classLoader.loadClass(properties.getProperty("opMode"));
 		System.out.println("Starting controller for OpMode "+ opModeClass);
 

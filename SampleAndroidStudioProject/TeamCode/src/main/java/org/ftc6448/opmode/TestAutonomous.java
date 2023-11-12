@@ -34,6 +34,7 @@ public class TestAutonomous extends LinearOpMode {
 
         int frameCount=0;
         while (opModeIsActive()) {
+            System.out.println(frameCount);
             if (runtime.milliseconds()>5000) {
                 motor1.setPower(0);
                 motor2.setPower(0);

@@ -2,6 +2,7 @@ package org.ftc6448.simulator.webots;
 
 import java.util.Properties;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import org.ftc6448.simulator.Controller;
 import org.ftc6448.simulator.PlatformSupport;
 
@@ -30,17 +31,17 @@ public class OpModeController implements Controller {
 	protected GamepadSupport gamepadSupport;
 	protected ControllerManager controllerManager;
 	
-	public OpModeController(OpMode opMode,Properties properties) {
+	public OpModeController(OpMode opMode, Properties properties) {
 		this.opMode = opMode;
 //		this.supervisor=supervisor;
-		this.properties=properties;
+		this.properties = properties;
 		// get the time step of the current world.
 //		timeStep = (int) Math.round(supervisor.getBasicTimeStep());
 		timeStep = 0;
 		System.out.println("timeStep " + timeStep);
 	
-		opMode.gamepad1=new Gamepad();
-		opMode.gamepad2=new Gamepad();
+		opMode.gamepad1 = new Gamepad();
+		opMode.gamepad2 = new Gamepad();
 		
 	}
 	
@@ -68,7 +69,16 @@ public class OpModeController implements Controller {
 		
 		
 		//load all motors into the hardware motor map
-//		for (int i = 0; i < supervisor.getNumberOfDevices(); i++) {
+//		for (int i = 0; i < this.properties.size(); i++) {
+//			System.out.println(this.properties.get(i));
+//		}
+		for(String key: properties.stringPropertyNames()){
+//			System.out.println(properties.getProperty(key) + " " + key);
+			hardwareMap.put("frontRight", new WebotsDcMotor("motor0"));
+			hardwareMap.put("frontLeft", new WebotsDcMotor("motor1"));
+			hardwareMap.put("backRight", new WebotsDcMotor("motor2"));
+			hardwareMap.put("backLeft", new WebotsDcMotor("motor3"));
+		}
 //			Device device=supervisor.getDeviceByIndex(i);
 //
 //			System.out.println(device+" "+i);
