@@ -15,7 +15,7 @@ public class WebotsServoImpl implements Servo {
 	
 	public WebotsServoImpl(String name) {
 //		this.motor=motor;
-		this.name=name;
+		this.name = name;
 	}
 	
 	@Override

@@ -4,18 +4,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.ftc6448.utils.NumberUtils;
 
-//import com.cyberbotics.webots.controller.Motor;
-//import com.cyberbotics.webots.controller.PositionSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.mujoco.MuJoCoLib;
+import org.mujoco.MuJoCoLib.*;
+
 public class WebotsDcMotorImpl implements DcMotorEx{
 	
 	protected final String name;
-//	protected final Motor motor;
+	protected final mjData_ data;
 	protected float maxPower;
 	
 	float power;
@@ -25,9 +26,10 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 	//extra power that can be used to add drag on a motor to simulate uneven power
 	float extraPower;
 	
-	public WebotsDcMotorImpl(String name) {
+	public WebotsDcMotorImpl(String name, mjData_ data) {
 //		this.motor=motor;
-		this.name=name;
+		this.name = name;
+		this.data = data;
 		
 		direction=Direction.FORWARD;
 		zeroPowerMode=ZeroPowerBehavior.BRAKE;
@@ -48,9 +50,9 @@ public class WebotsDcMotorImpl implements DcMotorEx{
 	@Override
 	public void setPower(double inputPower) {
 		if (direction==Direction.REVERSE) {
-			inputPower=-inputPower;
+			inputPower =- inputPower;
 		}
-		internalSetPower(inputPower);
+		data.ctrl().put(inputPower*10000);
 	}
 	
 	private void internalSetPower(double inputPower) {

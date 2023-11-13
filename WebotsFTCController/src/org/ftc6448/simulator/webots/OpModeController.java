@@ -1,18 +1,12 @@
 package org.ftc6448.simulator.webots;
 
+import java.nio.ByteBuffer;
 import java.util.Properties;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.ftc6448.simulator.Controller;
 import org.ftc6448.simulator.PlatformSupport;
 
-//import com.cyberbotics.webots.controller.Device;
-//import com.cyberbotics.webots.controller.GPS;
-//import com.cyberbotics.webots.controller.InertialUnit;
-//import com.cyberbotics.webots.controller.Keyboard;
-//import com.cyberbotics.webots.controller.Motor;
-//import com.cyberbotics.webots.controller.PositionSensor;
-//import com.cyberbotics.webots.controller.Supervisor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -20,17 +14,46 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.studiohartman.jamepad.ControllerManager;
 
+import static org.mujoco.MuJoCoLib.*;
+import java.nio.ByteBuffer;
+
+import static org.mujoco.MuJoCoLib.*;
+import org.lwjgl.*;
+import org.lwjgl.glfw.*;
+import org.lwjgl.system.*;
+
+import java.nio.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryUtil.*;
+
+
 public class OpModeController implements Controller {
 
 	protected final OpMode opMode;
-//	protected final Supervisor supervisor;
 	protected final Properties properties;
 	
 	public final int timeStep;
-//	protected Keyboard keyboard;
 	protected GamepadSupport gamepadSupport;
 	protected ControllerManager controllerManager;
-	
+	protected mjModel model;
+	protected mjModel_ model_ref;
+	protected mjData data;
+	protected mjData_ data_ref;
+	protected mjvCamera_ cam_ref;
+	protected mjvCamera cam;
+	protected mjvOption_ opt_ref;
+	protected mjvOption opt;
+	protected mjvScene_ scr_ref;
+	protected mjvScene scn;
+	protected mjrContext_ con_ref;
+	protected mjrContext con;
+	protected mjvPerturb_ pert_ref;
+	protected mjvPerturb pert;
+	protected long window;
+
 	public OpModeController(OpMode opMode, Properties properties) {
 		this.opMode = opMode;
 //		this.supervisor=supervisor;
@@ -49,6 +72,45 @@ public class OpModeController implements Controller {
 	public void initialize() {
 //		keyboard = new Keyboard();
 //		keyboard.enable(timeStep);
+
+		cam_ref = new mjvCamera_();
+		cam = new mjvCamera(cam_ref);
+		opt_ref = new mjvOption_();
+		opt = new mjvOption(opt_ref);
+		scr_ref = new mjvScene_();
+		scn = new mjvScene(scr_ref);
+		con_ref = new mjrContext_();
+		con = new mjrContext(con_ref);
+		pert_ref = new mjvPerturb_();
+		pert = new mjvPerturb(pert_ref);
+
+		ByteBuffer errstr = null;
+		model = mj_loadXML("src/test.xml", null, errstr, 1000);
+		model_ref = new mjModel_(model);
+		data = mj_makeData(model);
+		data_ref = new mjData_(data);
+
+		glfwInit();
+
+		glfwDefaultWindowHints();
+		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
+		CharSequence str = "demo";
+		window = glfwCreateWindow(1000, 1000, str, NULL, NULL);
+		glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
+
+		glfwShowWindow(window);
+
+		mjv_defaultOption(opt);
+		mjr_defaultContext(con);
+		mjv_defaultCamera(cam);
+
+		cam_ref.distance(10);
+
+		mjv_makeScene(model, scn, 1000);
+		mjr_makeContext(model, con, mjFONTSCALE_100);
 		
 		controllerManager = new ControllerManager();
 		controllerManager.initSDLGamepad();
@@ -67,17 +129,16 @@ public class OpModeController implements Controller {
 		final HardwareMap hardwareMap = new HardwareMap();
 		opMode.hardwareMap = hardwareMap;
 		
-		
 		//load all motors into the hardware motor map
 //		for (int i = 0; i < this.properties.size(); i++) {
 //			System.out.println(this.properties.get(i));
 //		}
 		for(String key: properties.stringPropertyNames()){
 //			System.out.println(properties.getProperty(key) + " " + key);
-			hardwareMap.put("frontRight", new WebotsDcMotor("motor0"));
-			hardwareMap.put("frontLeft", new WebotsDcMotor("motor1"));
-			hardwareMap.put("backRight", new WebotsDcMotor("motor2"));
-			hardwareMap.put("backLeft", new WebotsDcMotor("motor3"));
+			hardwareMap.put("frontRight", new WebotsDcMotorImpl("motor0", data_ref));
+			hardwareMap.put("frontLeft", new WebotsDcMotorImpl("motor1", data_ref));
+			hardwareMap.put("backRight", new WebotsDcMotorImpl("motor2", data_ref));
+			hardwareMap.put("backLeft", new WebotsDcMotorImpl("motor3", data_ref));
 		}
 //			Device device=supervisor.getDeviceByIndex(i);
 //
@@ -177,6 +238,11 @@ public class OpModeController implements Controller {
 		
 	}
 
+	static void mycontroller(mjModel_ m_, mjData_ d_) {
+		if( m_.nu() == m_.nv())
+			mju_scl(d_.ctrl(), d_.qvel(), -0.1, m_.nv());
+	}
+
 	@Override
 	public void run() {
 		System.out.println("Starting OpMode");
@@ -195,11 +261,26 @@ public class OpModeController implements Controller {
 			
 			long sleepTime=0;
 			String simSleepTimeStr=properties.getProperty("simulatorLoopSleepTime");
-			if (simSleepTimeStr!=null&&simSleepTimeStr.trim().length()>0) {
+			if (simSleepTimeStr != null && simSleepTimeStr.trim().length() > 0) {
 				sleepTime=Long.parseLong(simSleepTimeStr);
 			}
 			
 			while (1 != -1) {
+				mjrRect viewport = mjr_maxViewport(con);
+				mjrRect_ viewport_ref = new mjrRect_(viewport);
+				int[] width = new int[1];
+				int[] height = new int[1];
+				glfwGetFramebufferSize(window, width, height);
+
+				mjv_updateScene(model, data, opt, pert, cam, mjCAT_ALL, scn);
+				mjr_render(viewport, scn, con);
+
+				glfwSwapBuffers(window);
+
+				glfwPollEvents();
+//				mycontroller(model_ref, data_ref);
+				mj_step(model, data);
+				System.out.println(data_ref.time());
 				linearOpMode.loop();
 				linearOpMode.internalPostLoop();
 				
@@ -207,6 +288,8 @@ public class OpModeController implements Controller {
 				PlatformSupport.signalSimulatorLock(sleepTime==0);
 				if (linearOpMode.isStopped()) {
 					System.out.println("OpMode stopped");
+					mj_deleteModel(model);
+					mj_deleteData(data);
 				}
 				if (sleepTime>0) { 
 					try {
